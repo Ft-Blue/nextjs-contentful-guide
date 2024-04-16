@@ -1,4 +1,20 @@
+import { Metadata } from "next";
 import Image from "next/image";
+import { getEntryById } from "./services/contentful";
+import { TypePageMetadataSkeleton } from "./types/contentful";
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  const metadata = await getEntryById<TypePageMetadataSkeleton>("5giJRWu8PwowSIaCHrEUMo", false);
+
+  return {
+    title: metadata.fields.metaTitle,
+    description: metadata.fields.metaDescription,
+    robots: {
+      index: !metadata.fields.noIndex,
+      follow: !metadata.fields.noFollow,
+    }
+  };
+}
 
 export default function Home() {
   return (
